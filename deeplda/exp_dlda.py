@@ -59,6 +59,10 @@ if __name__ == '__main__':
     exp_root = os.path.join(os.path.join(EXP_ROOT), model.EXP_NAME)
     dump_file = os.path.join(exp_root, 'params.pkl')
 
+    # create folder for model parameters
+    if not os.path.exists(exp_root):
+        os.makedirs(exp_root)
+
     print("\nCompiling network %s ..." % model.EXP_NAME)
     l_out, l_in = model.build_model()
 
