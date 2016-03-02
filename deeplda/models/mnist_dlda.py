@@ -8,7 +8,10 @@ from theano.tensor import slinalg
 
 import lasagne
 from lasagne.layers.normalization import batch_norm
-from lasagne.layers.dnn import Conv2DDNNLayer as Conv2DLayer
+try:
+    from lasagne.layers.dnn import Conv2DDNNLayer as Conv2DLayer
+except:
+    from lasagne.layers.conv import Conv2DLayer as Conv2DLayer
 
 from batch_iterators import BatchIterator
 
