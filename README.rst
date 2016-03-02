@@ -43,9 +43,10 @@ Evaluate
 
 For evaluating the trained models run the following commands:
 The script will report:
-* The accuracy on train, validation and test set
+
+* The accuracies on train, validation and test set
 * Report the magnitudes of the individual eigenvalues after solving the general (Deep)LDA eigenvalue problem compare Figure 5 in paper)
-* Produce some visualizations representing the latent representation of the model (compare Figure 5 in paper)
+* Produce some plots visualizing the structure of the latent representation produced by the model (compare Figure 5 in paper)
 ::
 
     python exp_dlda.py --model mnist_dlda --data mnist --eval
