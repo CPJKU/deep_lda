@@ -41,7 +41,7 @@ Train on the first fold of STL10::
 Evaluation
 ~~~~~~~~~~
 
-For evaluating the trained models run the following commands:
+For evaluating the trained models run the following commands.
 The script will report:
 
 * The accuracies on train, validation and test set
