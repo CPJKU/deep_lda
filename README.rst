@@ -38,8 +38,8 @@ Train on the first fold of STL10::
 * the model should train up to a validation accuracy of around 67%.
 * we train this model on NVIDIA Tesla K40 (12GB memory) so it might be to large for less powerful cards (in this case you could try to reduce the batch size).
 
-Evaluate
-~~~~~~~~
+Evaluation
+~~~~~~~~~~
 
 For evaluating the trained models run the following commands:
 The script will report:
