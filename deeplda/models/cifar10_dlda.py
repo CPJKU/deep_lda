@@ -15,7 +15,7 @@ from lasagne.layers.normalization import batch_norm
 from batch_iterators import BatchIterator
 
 EXP_NAME = 'cifar10_dlda'
-INI_LEARNING_RATE = 0.01
+INI_LEARNING_RATE = np.float32(0.01)
 LEARNING_RATE_DECAY = None
 BATCH_SIZE = 1000
 MOMENTUM = 0.9
@@ -151,7 +151,7 @@ def compute_updates(all_grads, all_params, learning_rate):
 def update_learning_rate(lr, epoch=None):
     """ Update learning rate """
     if epoch > 0 and np.mod(epoch, 25) == 0:
-        return lr / 2
+        return np.float32(lr * 0.5)
     else:
         return lr
 
@@ -162,12 +162,12 @@ def update_momentum(m, epoch):
 
 
 def valid_batch_iterator(batch_size=BATCH_SIZE):
-    """ Compile batch itarator """
+    """ Compile batch iterator """
     return BatchIterator(batch_size=batch_size, prepare=None)
 
 
 def train_batch_iterator(batch_size=BATCH_SIZE):
-    """ Compile batch itarator """
+    """ Compile batch iterator """
     def prepare(x):
         """ randomly flip images """
         fl = np.random.randint(0, 2, x.shape[0])
@@ -176,5 +176,5 @@ def train_batch_iterator(batch_size=BATCH_SIZE):
                 x[i] = x[i, :, :, ::-1]
         return x
 
-    return BatchIterator(batch_size=batch_size, re_iterate=7, prepare=prepare)
+    return BatchIterator(batch_size=batch_size, re_iterate=1, prepare=prepare)
 

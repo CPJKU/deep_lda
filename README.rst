@@ -27,7 +27,8 @@ MNIST: the model should train up to a validation accuracy of around 99.7%.::
 
     python exp_dlda.py --model mnist_dlda --data mnist --train
 
-CIFAR10: the model should train up to 92% validation accuracy.::
+CIFAR10: the model should train up to 91.5% validation accuracy.
+This is a little bit less than the results reported in the paper as no `GCN-ZCA <http://arxiv.org/abs/1302.4389>`_ normalization is applied::
 
     python exp_dlda.py --model cifar10_dlda --data cifar10 --train
 

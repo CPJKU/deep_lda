@@ -48,8 +48,12 @@ if __name__ == '__main__':
     print("\nLoading data ...")
     if str(args.data) == 'mnist':
         data = load_mnist()
+    if str(args.data) == 'mnist_60k':
+        data = load_mnist(k60=True)
     elif str(args.data) == 'cifar10':
         data = load_cifar10()
+    elif str(args.data) == 'cifar10_50k':
+        data = load_cifar10(k50=True)
     elif str(args.data) == 'stl10':
         data = load_stl10(fold=args.fold)
     else:

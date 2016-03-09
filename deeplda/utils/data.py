@@ -66,7 +66,7 @@ def load_mnist(k60=False):
                 X_test=X_te, y_test=y_test)
 
 
-def load_cifar10():
+def load_cifar10(k50=False):
     """
     Load cifar10
     """
@@ -120,12 +120,16 @@ def load_cifar10():
     X_test /= 255.0
 
     # compile validation data
-    va_idxs = range(fold - 1, fold - 1 + 10000)
-    tr_idxs = np.setdiff1d(range(50000), va_idxs)
-    X_valid = X_train[va_idxs]
-    y_valid = y_train[va_idxs]
-    X_train = X_train[tr_idxs]
-    y_train = y_train[tr_idxs]
+    if not k50:
+        va_idxs = range(fold - 1, fold - 1 + 10000)
+        tr_idxs = np.setdiff1d(range(50000), va_idxs)
+        X_valid = X_train[va_idxs]
+        y_valid = y_train[va_idxs]
+        X_train = X_train[tr_idxs]
+        y_train = y_train[tr_idxs]
+    else:
+        X_valid = X_test
+        y_valid = y_test
 
     # reshape datasets to rgb images
     X_train = reshape_cifar(X_train)

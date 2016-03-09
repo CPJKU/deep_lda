@@ -487,7 +487,7 @@ def fit(l_out, l_in, data, objective, y_tensor_type,
     avg_acc_te = np.mean(test_acc)
 
     print("--------------------------------------------")
-    print('Loss on Test-Set: %.5f (%.3f)' % (avg_loss_te, avg_acc_te))
+    print('Loss on Test-Set: %.5f' % avg_loss_te)
     print("--------------------------------------------\n")
 
     if out_path is not None:
