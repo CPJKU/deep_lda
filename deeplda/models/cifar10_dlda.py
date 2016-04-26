@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import numpy as np
 
 import theano
@@ -15,8 +16,7 @@ from lasagne.layers.normalization import batch_norm
 from batch_iterators import BatchIterator
 
 EXP_NAME = 'cifar10_dlda'
-INI_LEARNING_RATE = np.float32(0.01)
-LEARNING_RATE_DECAY = None
+INI_LEARNING_RATE = np.float32(0.1)
 BATCH_SIZE = 1000
 MOMENTUM = 0.9
 MAX_EPOCHS = 10000
@@ -36,55 +36,56 @@ init_conv = lasagne.init.HeNormal
 
 def build_model(batch_size=BATCH_SIZE):
     """ Compile net architecture """
+    nonlin = lasagne.nonlinearities.rectify
 
     # --- input layers ---
     l_in = lasagne.layers.InputLayer(shape=(batch_size, INPUT_SHAPE[0], INPUT_SHAPE[1], INPUT_SHAPE[2]), name='Input')
 
     # --- conv layers ---
     net = Conv2DLayer(l_in, num_filters=64, filter_size=3, pad=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = Conv2DLayer(net, num_filters=64, filter_size=3, pad=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = lasagne.layers.MaxPool2DLayer(net, pool_size=2, name='Pool')
     net = lasagne.layers.DropoutLayer(net, p=0.25, name='Dropout')
 
     net = Conv2DLayer(net, num_filters=128, filter_size=3, pad=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = Conv2DLayer(net, num_filters=128, filter_size=3, pad=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = lasagne.layers.MaxPool2DLayer(net, pool_size=2, name='Pool')
     net = lasagne.layers.DropoutLayer(net, p=0.25, name='Dropout')
 
     net = Conv2DLayer(net, num_filters=256, filter_size=3, pad=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = Conv2DLayer(net, num_filters=256, filter_size=3, pad=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = Conv2DLayer(net, num_filters=256, filter_size=3, pad=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = Conv2DLayer(net, num_filters=256, filter_size=3, pad=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = lasagne.layers.MaxPool2DLayer(net, pool_size=2, name='Pool')
     net = lasagne.layers.DropoutLayer(net, p=0.25, name='Dropout')
 
     net = Conv2DLayer(net, num_filters=1024, filter_size=3, pad=0, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = lasagne.layers.DropoutLayer(net, p=0.5, name='Dropout')
     net = Conv2DLayer(net, num_filters=1024, filter_size=1, pad=0, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = lasagne.layers.DropoutLayer(net, p=0.5, name='Dropout')
 
     # --- feed forward part ---
     net = Conv2DLayer(net, num_filters=10, filter_size=1, W=init_conv(),
-                      nonlinearity=lasagne.nonlinearities.rectify, name='Conv')
+                      nonlinearity=nonlin, name='Conv')
     net = batch_norm(net)
     net = lasagne.layers.Pool2DLayer(net, pool_size=2, ignore_border=False,
                                      mode='average_exc_pad', name='GlobalAveragePool')
@@ -145,7 +146,7 @@ def objective(Xt, yt):
 
 def compute_updates(all_grads, all_params, learning_rate):
     """ Compute updates from gradients """
-    return lasagne.updates.momentum(all_grads, all_params, learning_rate, momentum=0.9)
+    return lasagne.updates.nesterov_momentum(all_grads, all_params, learning_rate, momentum=0.9)
 
 
 def update_learning_rate(lr, epoch=None):

@@ -32,7 +32,7 @@ if __name__ == '__main__':
     parser.add_argument('--data', help='select data set.')
     parser.add_argument('--train', help='train DeepLDA model.', action='store_true')
     parser.add_argument('--eval', help='evaluate DeepLDA model.', action='store_true')
-    parser.add_argument('--fold', help='select train fold (only for stl10, default=0).', type=int, default=0)
+    parser.add_argument('--fold', help='select train fold (only for stl10, (0-9), default=0).', type=int, default=0)
     args = parser.parse_args()
 
     # select model

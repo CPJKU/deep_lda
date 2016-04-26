@@ -16,7 +16,7 @@ def download_file(filename, source):
     else:
         from urllib.request import urlretrieve
 
-    print("Downloading %s ... " % filename, end='')
+    print("Downloading %s ... " % filename)
     urlretrieve(source + filename, filename)
     print("done!")
 

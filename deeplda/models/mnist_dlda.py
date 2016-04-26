@@ -138,7 +138,7 @@ def objective(Xt, yt):
 
 def compute_updates(all_grads, all_params, learning_rate):
     """ Compute updates from gradients """
-    return lasagne.updates.momentum(all_grads, all_params, learning_rate, momentum=0.9)
+    return lasagne.updates.nesterov_momentum(all_grads, all_params, learning_rate, momentum=0.9)
 
 
 def update_learning_rate(lr, epoch=None):
